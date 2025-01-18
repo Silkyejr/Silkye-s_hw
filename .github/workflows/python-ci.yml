@@ -24,13 +24,14 @@ jobs:
     - name: Run tests
       run: |
         pytest
-
+  
   deploy:
-    needs: test  # Пайплайн deploy запускается только после успешного тестирования
+    needs: test
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Install Heroku CLI
+      run: curl https://cli-assets.heroku.com/install.sh | sh
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
