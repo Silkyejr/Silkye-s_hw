@@ -24,6 +24,10 @@ def get_words():
     """Получение всех слов из словаря"""
     return jsonify(word_dict), 200
 
+@app.route('/', methods=['GET'])
+def index():
+    return "Главная страница"
+
 @app.route('/api/words', methods=['POST'])
 def add_word():
     """Добавление нового слова в словарь"""
