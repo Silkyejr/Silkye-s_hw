@@ -1,4 +1,4 @@
-name: Python CI
+name: Python CI/CD
 
 on:
   push:
@@ -24,3 +24,17 @@ jobs:
     - name: Run tests
       run: |
         pytest
+
+  deploy:
+    needs: test  # Пайплайн deploy запускается только после успешного тестирования
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+    - name: Deploy to Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        heroku container:login
+        heroku container:push web --app your-heroku-app-name
+        heroku container:release web --app your-heroku-app-name
